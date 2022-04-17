@@ -1,12 +1,18 @@
 <template>
-  <Header></Header>
+  <div class="div">
+    <Header/>
+    <Banner/>
+    <Products/>
+  </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
+import Banners from './components/Banner.vue'
+import Products from './components/Products.vue'
 
 export default {
-  components: {Header}
+  components: {Header, Banners, Products}
 };
 </script>
 
@@ -15,6 +21,12 @@ export default {
   margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  width: 100%;
 }
 
 ul {
