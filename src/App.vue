@@ -8,11 +8,11 @@
 
 <script>
 import Header from './components/Header.vue'
-import Banners from './components/Banner.vue'
+import Banner from './components/Banner.vue'
 import Products from './components/Products.vue'
 
 export default {
-  components: {Header, Banners, Products}
+  components: {Header, Banner, Products}
 };
 </script>
 
