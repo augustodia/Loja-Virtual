@@ -6,7 +6,7 @@
           <li v-for="(category, index) in categories" :key="index"><a href="">{{category.toUpperCase()}}</a></li>
         </ul>
 
-        <v-text-field class="busca" outlined :hide-details="true" height="10px" :dense="true" :full-width="false" placeholder="Buscar produto..." width="50px">
+        <v-text-field class="busca" outlined :hide-details="true" height="10px" :dense="true" :full-width="false" placeholder="Search product..." width="50px">
           <template v-slot:append>        
             <v-icon @click="{}" color="green"> mdi-magnify </v-icon> 
           </template>
