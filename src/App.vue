@@ -1,19 +1,11 @@
 <template>
-  <div class="div">
-    <Header/>
-    <Banner/>
-    <Products/>
+  <div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Header from './components/Header.vue'
-import Banner from './components/Banner.vue'
-import Products from './components/Products.vue'
 
-export default {
-  components: {Header, Banner, Products}
-};
 </script>
 
 <style>
@@ -41,5 +33,6 @@ a {
 .container {
   margin: 0 auto;
   max-width: 1440px;
+  padding: 24px;
 }
 </style>

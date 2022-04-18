@@ -2,7 +2,7 @@
 <div class="container products-section">
 
   <div class="top-bar-products" data-app>
-    <h2 class="title">All Products</h2>
+    <h2 class="title">{{titlePage}}</h2>
     <v-select filled :dense="true" label="Order by" height="10px" :hide-details="true" :items="itemsFilter" item-text="text"
   item-value="value"
   v-model="orderBy"></v-select>
@@ -15,7 +15,14 @@
 
 <script>
 import Product from './Product.vue'
+import {functionsProductOrder} from '../utils/functionsOrder.js';
 export default {
+  props: {
+    routeApi: {
+      default: '',
+      type: String,
+    }
+  },
   components: {Product},
   data() {
     return {
@@ -50,81 +57,43 @@ export default {
     }
   },
   computed: {
-    ordernedItems() {
-      let functionsOrder = {
-        AZ: (a, b) => {
-          if(a.title > b.title)
-            return 1;
-          if(a.title < b.title)
-            return -1;
-
-          return 0;
-        },
-        ZA: (a, b) => {
-          if(a.title < b.title)
-            return 1;
-          if(a.title > b.title)
-            return -1;
-
-          return 0;
-        },
-        minPrice: (a, b) => {
-          if(a.price > b.price)
-            return 1;
-          if(a.price < b.price)
-            return -1;
-
-          return 0;
-        },
-        maxPrice: (a, b) => {
-          if(a.price < b.price)
-            return 1;
-          if(a.price > b.price)
-            return -1;
-
-          return 0;
-        },
-        bestRated: (a, b) => {
-          if(a.rating.rate < b.rating.rate)
-            return 1;
-          if(a.rating.rate > b.rating.rate)
-            return -1;
-
-          return 0;
-        },
-        worstRated: (a, b) => {
-          if(a.rating.rate > b.rating.rate)
-            return 1;
-          if(a.rating.rate < b.rating.rate)
-            return -1;
-
-          return 0;
-        },
-      }
-      
-      return this.orderItems(this.products, this.orderBy, functionsOrder);
+    ordernedItems() {      
+      return this.orderItems(this.products, this.orderBy, functionsProductOrder);
+    },
+    titlePage() { 
+      let category = this.$route.params.category;
+      if(!this.routeApi)
+        return 'All products'
+      return category[0].toUpperCase() + category.substr(1);
     }
   },
   methods: {
-    orderItems(items, orderBy, functionsOrder) {
-      // if(orderBy == 'maxPrice')
-      //   return items.sort(functionsOrder[orderBy]).reverse();
-      
+    orderItems(items, orderBy, functionsOrder) {      
       return items.sort(functionsOrder[orderBy]);
     },
+    async getProducts() {
+      try {
+        let response;
+        if(!this.routeApi)
+          response = await fetch(`https://fakestoreapi.com/products`);
+        else
+          response = await fetch(`https://fakestoreapi.com/products${this.routeApi}`);
+        this.products = await response.json();
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
   watch: {
     orderBy(newVal, oldVal) {
       console.log(newVal, oldVal)
+    },
+    routeApi(newVal) {
+      this.getProducts(newVal);
     }
   },
   async created() {
-    try {
-      let response = await fetch('https://fakestoreapi.com/products');
-      this.products = await response.json();
-    } catch (error) {
-      console.log(error)
-    }
+    await this.getProducts();
   }
 }
 </script>
@@ -139,15 +108,13 @@ export default {
     font-size: 32px;
   }
   .products {
-    padding: 0 12px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* see notes below */
-    grid-gap: 32px;
+    grid-gap: 35px;
     justify-items: center;
   }
 
   .top-bar-products {
-    padding:0 20px;
     margin-bottom: 64px;
     display: flex;
     align-items: center;
