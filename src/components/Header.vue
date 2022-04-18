@@ -6,9 +6,9 @@
           <li v-for="(category, index) in categories" :key="index"><router-link :to="{path: `/categories/${category}`}" href="">{{category.toUpperCase()}}</router-link></li>
         </ul>
 
-        <v-text-field class="busca" outlined :hide-details="true" height="10px" :dense="true" :full-width="false" placeholder="Search product..." width="50px">
+        <v-text-field class="busca" outlined :hide-details="true" height="10px" :dense="true" :full-width="false" placeholder="Search product..." width="50px" @keyup.enter.stop="search()" v-model="querySearch">
           <template v-slot:append>        
-            <v-icon @click="{}" color="green"> mdi-magnify </v-icon> 
+            <v-icon @click.stop="search()" color="green"> mdi-magnify </v-icon> 
           </template>
         </v-text-field>
         
@@ -36,7 +36,15 @@
 export default {
   data() {
     return {
-      categories: []
+      categories: [],
+      querySearch: ''
+    }
+  },
+  methods: {
+    search() {
+      if(this.querySearch) {
+        this.$router.push(`/search?query=${this.querySearch}`)
+      }
     }
   },
   async created(){

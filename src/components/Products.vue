@@ -3,9 +3,7 @@
 
   <div class="top-bar-products" data-app>
     <h2 class="title">{{titlePage}}</h2>
-    <v-select filled :dense="true" label="Order by" height="10px" :hide-details="true" :items="itemsFilter" item-text="text"
-  item-value="value"
-  v-model="orderBy"></v-select>
+    <v-select filled :dense="true" label="Order by" height="10px" :hide-details="true" :items="itemsFilter" item-text="text" item-value="value" v-model="orderBy"></v-select>
   </div>
   <div class="products">
     <Product v-for="product in ordernedItems" :key="product.id" :product="product"/>
@@ -79,17 +77,22 @@ export default {
         else
           response = await fetch(`https://fakestoreapi.com/products${this.routeApi}`);
         this.products = await response.json();
+        if(!this.routeApi && this.$route.query.query) {
+          this.products = this.products.filter(product => {
+            return (product.title.toLowerCase().startsWith(this.$route.query.query.toLowerCase()) || product.category.toLowerCase().startsWith(this.$route.query.query.toLowerCase()))
+            })
+        }
       } catch (error) {
         console.log(error)
       }
     }
   },
   watch: {
-    orderBy(newVal, oldVal) {
-      console.log(newVal, oldVal)
+    routeApi() {
+      this.getProducts();
     },
-    routeApi(newVal) {
-      this.getProducts(newVal);
+    '$route.query'() {
+      this.getProducts()
     }
   },
   async created() {
