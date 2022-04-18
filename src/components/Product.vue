@@ -1,9 +1,9 @@
 <template>
-  <div class="product">
+  <router-link :to="{path: `/product/${urlFormated}?id=${product.id}`, productId: product.id}" class="product">
     <img class="image" :src="product.image" alt="">
     <v-rating
-    color="#f9a825"
-    background-color="#757575"
+      color="#f9a825"
+      background-color="#757575"
       class="rating"
       empty-icon="mdi-star-outline"
       full-icon="mdi-star"
@@ -19,11 +19,14 @@
       <span class="price">{{priceFormated}}</span>
     </div>
     
-  </div>
+  </router-link>
 </template>
 
 <script>
+import productMixin from '@/mixins/productMixin.js'
+
 export default {
+  mixins: [productMixin],
   props: {
     product: {
       type: Object,
@@ -31,17 +34,16 @@ export default {
     }
   },
   computed:{
-    priceFormated() {
-      return `$ ${this.product.price.toLocaleString('en-US', {currency: 'USD', minimumFractionDigits: 2})}`
-    },
     titleFormated() {
       if(this.product.title.length >=20)
         return `${this.product.title.slice(0, 20)}...`;
 
       return this.product.title
+    },
+    urlFormated() {
+      return this.product.title.replaceAll('/','-').replaceAll(' ', '-')
     }
-
-  }
+  },
 }
 </script>
 
