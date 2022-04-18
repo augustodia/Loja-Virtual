@@ -3,7 +3,7 @@
     <div class="container" >
       <div class="header-content" v-if="categories.length">
         <ul class="navigation">
-          <li v-for="(category, index) in categories" :key="index"><a href="">{{category.toUpperCase()}}</a></li>
+          <li v-for="(category, index) in categories" :key="index"><router-link :to="{path: `/categories/${category}`}" href="">{{category.toUpperCase()}}</router-link></li>
         </ul>
 
         <v-text-field class="busca" outlined :hide-details="true" height="10px" :dense="true" :full-width="false" placeholder="Search product..." width="50px">
@@ -76,6 +76,7 @@ export default {
   }
   .navigation li a:hover {
     color: rgba(0,0,0,0.6);
+    cursor: pointer;
   }
 
   .busca {

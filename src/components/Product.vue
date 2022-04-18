@@ -73,7 +73,6 @@ export default {
   max-width: 300px;
   width: auto;
   height: auto;
-  /* margin: 0 auto; */
 }
 
 .product .info {
