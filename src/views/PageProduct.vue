@@ -92,6 +92,8 @@ export default {
 </script>
 
 <style scoped>
+
+  
   .page-product {
     margin-top: 64px;
     display: flex;
@@ -102,7 +104,6 @@ export default {
   .product-img {
     margin-top: 64px;
     max-width: 100%;
-
   }
   .product-description {
     margin-top: 64px;
@@ -167,5 +168,27 @@ export default {
   }
   .alert-added-cart .v-icon {
     margin-right: 12px;
+  }
+
+  @media only screen and (max-width: 1290px) {
+    .page-product {
+      flex-direction: column;
+    }
+    .product-info {
+      max-width: 100%;
+    }
+
+    .product-img {
+      margin-top: 64px;
+    }
+    .product-details {
+      margin-left: 0px;
+    }
+
+    .button-cart.add-cart {
+      margin-left: 12px;
+      padding: 16px 32px;
+      background-color: #0033C6;
+    }
   }
 </style>

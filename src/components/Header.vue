@@ -3,6 +3,7 @@
     <div class="container" >
       <div class="header-content" v-if="categories.length">
         <ul class="navigation">
+          <li><router-link :to="{path: `/`}" href="">HOME</router-link></li>
           <li v-for="(category, index) in categories" :key="index"><router-link :to="{path: `/categories/${category}`}" href="">{{category.toUpperCase()}}</router-link></li>
         </ul>
 
@@ -37,7 +38,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <h4>Total {{totalPriceCart}}</h4>
+            <h4 class="total-cart">Total {{totalPriceCart}}</h4>
           </v-card>
         </div>
       </div>
@@ -188,5 +189,10 @@ export default {
   .qtd-product {
     font-size: 16px;
     margin: 0 12px;
+  }
+
+  .total-cart {
+    margin-left: 16px;
+    margin-bottom: 8px;
   }
 </style>
