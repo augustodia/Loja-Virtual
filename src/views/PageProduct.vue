@@ -36,7 +36,7 @@
 
       <div class="section-add-cart">
         <button class="button-cart" @click="qtdProduct <= 1 ? undefined: qtdProduct--"><v-icon>mdi-minus</v-icon></button>
-        <v-text-field class="input-qtd-products" :value="qtdProduct" :dense="true" type="number" :hide-details="true" :hide-spin-buttons="true" outlined :full-width="true"></v-text-field>
+        <v-text-field class="input-qtd-products" :dense="true" type="number" :hide-details="true" :hide-spin-buttons="true" outlined :full-width="true" v-model="qtdProduct"></v-text-field>
         <button class="button-cart" @click="qtdProduct++"><v-icon>mdi-plus</v-icon></button>
         <button class="button-cart add-cart" @click="addProductToCart()">ADD TO CART</button>
       </div>
@@ -46,6 +46,7 @@
 
 <script>
 import productMixin from '@/mixins/productMixin.js'
+import { mapMutations } from 'vuex';
 export default {
   mixins: [productMixin],
   data(){
@@ -56,6 +57,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['addToCart']),
     async getProduct(id) {
       try {
         let response  = await fetch(`https://fakestoreapi.com/products/${id}`);
@@ -66,8 +68,8 @@ export default {
     },
     addProductToCart() {
       this.alertVisible = true;
-      this.qtdProduct = 1;
       setTimeout(() => this.alertVisible = false, 2000)
+      this.addToCart({product: this.product, qtd: this.qtdProduct})
     }
   },
   computed: {
@@ -89,7 +91,7 @@ export default {
 }
 </script>
 
-<style sccoped>
+<style scoped>
   .page-product {
     margin-top: 64px;
     display: flex;
